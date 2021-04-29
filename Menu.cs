@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace TuringMachineExecuter
 {
-    public partial class Menu : Form
+    public partial class menuForm : Form
     {
-        public Menu()
+        public menuForm()
         {
             InitializeComponent();
         }
