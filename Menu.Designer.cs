@@ -31,7 +31,7 @@ namespace TuringMachineExecuter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(menuForm));
             this.btnLoadFile = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtInitTape = new System.Windows.Forms.TextBox();
             this.btnAutomatic = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnNextStep = new System.Windows.Forms.Button();
@@ -42,7 +42,7 @@ namespace TuringMachineExecuter
             this.lblCurrentNode = new System.Windows.Forms.Label();
             this.lblLastMovement = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.tlpCinta = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpTape = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
             // btnLoadFile
@@ -54,14 +54,15 @@ namespace TuringMachineExecuter
             this.btnLoadFile.TabIndex = 0;
             this.btnLoadFile.Text = "Cargar Máquina";
             this.btnLoadFile.UseVisualStyleBackColor = true;
+            this.btnLoadFile.Click += new System.EventHandler(this.btnLoadFile_Click);
             // 
-            // textBox1
+            // txtInitTape
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.Location = new System.Drawing.Point(29, 109);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(140, 23);
-            this.textBox1.TabIndex = 1;
+            this.txtInitTape.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtInitTape.Location = new System.Drawing.Point(29, 109);
+            this.txtInitTape.Name = "txtInitTape";
+            this.txtInitTape.Size = new System.Drawing.Size(140, 23);
+            this.txtInitTape.TabIndex = 1;
             // 
             // btnAutomatic
             // 
@@ -170,21 +171,21 @@ namespace TuringMachineExecuter
             this.label6.TabIndex = 11;
             this.label6.Text = "Última transición/movimiento realizado";
             // 
-            // tlpCinta
+            // tlpTape
             // 
-            this.tlpCinta.ColumnCount = 5;
-            this.tlpCinta.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpCinta.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpCinta.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpCinta.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpCinta.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpCinta.Location = new System.Drawing.Point(218, 193);
-            this.tlpCinta.Name = "tlpCinta";
-            this.tlpCinta.RowCount = 2;
-            this.tlpCinta.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpCinta.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpCinta.Size = new System.Drawing.Size(487, 100);
-            this.tlpCinta.TabIndex = 13;
+            this.tlpTape.ColumnCount = 5;
+            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpTape.Location = new System.Drawing.Point(218, 193);
+            this.tlpTape.Name = "tlpTape";
+            this.tlpTape.RowCount = 2;
+            this.tlpTape.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpTape.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpTape.Size = new System.Drawing.Size(487, 100);
+            this.tlpTape.TabIndex = 13;
             // 
             // menuForm
             // 
@@ -192,7 +193,7 @@ namespace TuringMachineExecuter
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(759, 450);
-            this.Controls.Add(this.tlpCinta);
+            this.Controls.Add(this.tlpTape);
             this.Controls.Add(this.lblLastMovement);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblCurrentNode);
@@ -203,7 +204,7 @@ namespace TuringMachineExecuter
             this.Controls.Add(this.btnNextStep);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnAutomatic);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtInitTape);
             this.Controls.Add(this.btnLoadFile);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "menuForm";
@@ -217,7 +218,7 @@ namespace TuringMachineExecuter
         #endregion
 
         private System.Windows.Forms.Button btnLoadFile;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtInitTape;
         private System.Windows.Forms.Button btnAutomatic;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnNextStep;
@@ -228,6 +229,6 @@ namespace TuringMachineExecuter
         private System.Windows.Forms.Label lblCurrentNode;
         private System.Windows.Forms.Label lblLastMovement;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TableLayoutPanel tlpCinta;
+        private System.Windows.Forms.TableLayoutPanel tlpTape;
     }
 }
