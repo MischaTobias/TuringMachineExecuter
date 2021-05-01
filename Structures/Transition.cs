@@ -1,11 +1,13 @@
 ﻿namespace TuringMachineExecuter.Structures
 {
-    class Transition
+    public class Transition
     {
-        string NextState;
-        string TransitionString;
-        string HeadMovement;
-        Node CurrentNode;
-        Node NextNode;
+        public string CurrentState;
+        public string NextState;
+        public string ReadingCharacter;
+        public string WritingCharacter;
+        public string HeadMovement;
+
+        public Transition() { }
     }
 }

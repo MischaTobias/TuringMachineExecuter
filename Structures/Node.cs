@@ -1,11 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TuringMachineExecuter.Structures
 {
-    class Node
+    public class Node : IComparable
     {
-        string State;
-        List<Transition> Transitions;
-        bool FinalState;
+        public string State;
+        public List<Transition> Transitions;
+        public bool FinalState;
+
+        public Node(){}
+        public Node(string state, bool final)
+        {
+            State = state;
+            FinalState = final;
+        }
+
+        public int CompareTo(object obj)
+        {
+            return State.CompareTo(((Node)obj).State);
+        }
     }
 }

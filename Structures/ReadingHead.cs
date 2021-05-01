@@ -1,9 +1,9 @@
 ﻿namespace TuringMachineExecuter.Structures
 {
-    class ReadingHead
+    public class ReadingHead
     {
-        string CurrentState;
-        int CurrentPosition;
-        Transition LastTransition;
+        public string CurrentState;
+        public int CurrentPosition;
+        public Transition LastTransition;
     }
 }

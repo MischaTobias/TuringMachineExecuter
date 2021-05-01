@@ -2,9 +2,9 @@
 
 namespace TuringMachineExecuter.Structures
 {
-    class TuringTape
+    public class TuringTape
     {
-        List<char> TapeCharacters;
-        ReadingHead Head;
+        public List<char> TapeCharacters;
+        public ReadingHead Head;
     }
 }

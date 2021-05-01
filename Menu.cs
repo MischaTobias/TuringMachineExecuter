@@ -40,12 +40,20 @@ namespace TuringMachineExecuter
                         var fileStream = openFileDialog.OpenFile();
                         using (StreamReader reader = new StreamReader(fileStream))
                         {
-                            var line = reader.ReadLine(); //Número de estados
-                            line = reader.ReadLine(); //Estado inicial
-                            var alphabet = new string[] { reader.ReadLine() }; //Caracteres
-                            while ((line = reader.ReadLine()) != null) //Transiciones
+                            var line = reader.ReadLine(); //Qty of States
+                            var initialState = reader.ReadLine(); //initialState
+                            var alphabet = reader.ReadLine(); //alphabet
+                            TuringMachine = new TuringMachine(Convert.ToInt32(line), initialState, alphabet);
+                            var transitionResult = string.Empty;
+                            while ((line = reader.ReadLine()) != null) //Transitions
                             {
-
+                                transitionResult = TuringMachine.AddTransition(line);
+                                if (transitionResult != "Transición creada correctamente")
+                                {
+                                    MessageBox.Show(transitionResult);
+                                    TuringMachine.Usable = false;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -59,6 +67,11 @@ namespace TuringMachineExecuter
             {
                 MessageBox.Show("El formato del archivo de entrada es incorrecto, \npor favor inténtelo nuevamente.");
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

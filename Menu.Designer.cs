@@ -42,7 +42,8 @@ namespace TuringMachineExecuter
             this.lblCurrentNode = new System.Windows.Forms.Label();
             this.lblLastMovement = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.tlpTape = new System.Windows.Forms.TableLayoutPanel();
+            this.dgvTape = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTape)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLoadFile
@@ -171,21 +172,18 @@ namespace TuringMachineExecuter
             this.label6.TabIndex = 11;
             this.label6.Text = "Última transición/movimiento realizado";
             // 
-            // tlpTape
+            // dgvTape
             // 
-            this.tlpTape.ColumnCount = 5;
-            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpTape.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpTape.Location = new System.Drawing.Point(218, 193);
-            this.tlpTape.Name = "tlpTape";
-            this.tlpTape.RowCount = 2;
-            this.tlpTape.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpTape.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpTape.Size = new System.Drawing.Size(487, 100);
-            this.tlpTape.TabIndex = 13;
+            this.dgvTape.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvTape.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTape.Location = new System.Drawing.Point(205, 193);
+            this.dgvTape.Name = "dgvTape";
+            this.dgvTape.RowTemplate.Height = 25;
+            this.dgvTape.Size = new System.Drawing.Size(530, 87);
+            this.dgvTape.TabIndex = 13;
+            this.dgvTape.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // menuForm
             // 
@@ -193,7 +191,7 @@ namespace TuringMachineExecuter
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(759, 450);
-            this.Controls.Add(this.tlpTape);
+            this.Controls.Add(this.dgvTape);
             this.Controls.Add(this.lblLastMovement);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblCurrentNode);
@@ -210,6 +208,7 @@ namespace TuringMachineExecuter
             this.Name = "menuForm";
             this.Text = "TM Executer";
             this.Load += new System.EventHandler(this.Menu_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTape)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,6 +228,6 @@ namespace TuringMachineExecuter
         private System.Windows.Forms.Label lblCurrentNode;
         private System.Windows.Forms.Label lblLastMovement;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TableLayoutPanel tlpTape;
+        private System.Windows.Forms.DataGridView dgvTape;
     }
 }
