@@ -14,11 +14,6 @@ namespace TuringMachineExecuter
             InitializeComponent();
         }
 
-        private void Menu_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnLoadFile_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog()

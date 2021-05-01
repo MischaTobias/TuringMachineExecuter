@@ -206,7 +206,6 @@ namespace TuringMachineExecuter
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "menuForm";
             this.Text = "TM Executer";
-            this.Load += new System.EventHandler(this.Menu_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTape)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

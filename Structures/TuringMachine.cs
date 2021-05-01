@@ -16,6 +16,7 @@ namespace TuringMachineExecuter.Structures
         public TuringMachine(){}
         public TuringMachine(int statesQty, string initialState, string alphabet)
         {
+            States = new List<Node>();
             NoOfStates = statesQty;
             InitialState = initialState;
             Alphabet = new List<char>(alphabet.ToCharArray());
@@ -29,11 +30,11 @@ namespace TuringMachineExecuter.Structures
             {
                 return "Formato incorrecto";
             }
-            if (!States.Contains(new Node() { State = transitionParts[0] }))
+            if (PendingState(transitionParts[0]))
             {
                 CreateState(transitionParts[0]);
             }
-            if (!States.Contains(new Node() { State = transitionParts[2] }))
+            if (PendingState(transitionParts[2]))
             {
                 CreateState(transitionParts[2]);
             }
@@ -47,7 +48,19 @@ namespace TuringMachineExecuter.Structures
 
         private void CreateState(string state)
         {
-            States.Add(new Node() { State = state });
+            States.Add(new Node() { State = state, Transitions = new List<Transition>() });
+        }
+
+        private bool PendingState(string stateName)
+        {
+            foreach (var state in States)
+            {
+                if (state.State == stateName)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void AddTransition(string[] values)
