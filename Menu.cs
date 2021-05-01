@@ -55,6 +55,11 @@ namespace TuringMachineExecuter
                                     break;
                                 }
                             }
+                            if (TuringMachine.States.Count != TuringMachine.NoOfStates)
+                            {
+                                MessageBox.Show("Entrada inválida, tiene menos estados de los indicados");
+                                TuringMachine.Usable = false;
+                            }
                         }
                     }
                     else
