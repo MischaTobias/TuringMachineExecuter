@@ -183,7 +183,6 @@ namespace TuringMachineExecuter
             this.dgvTape.RowTemplate.Height = 25;
             this.dgvTape.Size = new System.Drawing.Size(530, 87);
             this.dgvTape.TabIndex = 13;
-            this.dgvTape.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // menuForm
             // 
