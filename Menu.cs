@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using TuringMachineExecuter.Structures;
@@ -29,8 +30,9 @@ namespace TuringMachineExecuter
                     var filepath = openFileDialog.FileName;
                     var fileName = Path.GetFileName(filepath);
                     DialogResult dialogResult = MessageBox.Show($"¿Quiere continuar y colocar {fileName} como la MT a ejecutar?", "Confirmar MT", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
+                    //if (dialogResult == DialogResult.Yes)
+                   // {
+                        enableButtons(true);
                         var onlyFileName = Path.GetFileName(filepath);
                         var fileStream = openFileDialog.OpenFile();
                         using (StreamReader reader = new StreamReader(fileStream))
@@ -59,7 +61,7 @@ namespace TuringMachineExecuter
                             if (TuringMachine.CheckInitialState())
                             {
                                 lblCurrentNode.Text = TuringMachine.InitialState;
-                                lblTuringFile.Text = fileName;
+                                txtFile.Text = fileName;
                             }
                             else
                             {
@@ -67,11 +69,11 @@ namespace TuringMachineExecuter
                                 TuringMachine.Usable = false;
                             }
                         }
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         return;
-                    }
+                    //}
                 }
             }
             catch
@@ -80,24 +82,68 @@ namespace TuringMachineExecuter
             }
         }
 
-        private void btnLoadTape_Click(object sender, EventArgs e)
-        {
-            if (CheckTape(txtInitTape.Text))
-            {
-                //Do something (load tape in dgv)
+        private void btnLoadTape_Click(object sender, EventArgs e) {
+            if (CheckTape(txtInitTape.Text)) {
+                tape.Items.Clear();
+                foreach (var value in txtInitTape.Text) {
+                    tape.Items.Add(value);
+                }
+            } else {
+                MessageBox.Show("Entrada inválida, intente nuevamente, por favor");
             }
+
         }
 
-        private bool CheckTape(string newTape)//Probablemente validar no sea nulo
-        {
-            foreach (var character in newTape)
-            {
-                if (!TuringMachine.Alphabet.Contains(character))
-                {
+        private bool CheckTape(string newTape) {
+            foreach (var character in newTape) {
+                if (!TuringMachine.Alphabet.Contains(character)) {
                     return false;
                 }
             }
             return true;
+        }
+
+        private void dgvTape_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+
+        }
+
+        private void menuForm_Load(object sender, EventArgs e) {
+            enableButtons(false);
+            txtFile.Enabled = false;
+            
+        }
+
+
+        public void enableButtons(bool state) {
+            btnAutomatic.Enabled = state;
+            btnLoadTape.Enabled = state;
+            btnNextStep.Enabled = state;
+            btnStop.Enabled = state;
+        }
+
+        private void checkedTape_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedTape_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tape_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
