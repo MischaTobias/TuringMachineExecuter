@@ -68,5 +68,29 @@ namespace TuringMachineExecuter
                 MessageBox.Show("El formato del archivo de entrada es incorrecto, \npor favor inténtelo nuevamente.");
             }
         }
+
+        private void btnLoadTape_Click(object sender, EventArgs e)
+        {
+            if (CheckTape(txtInitTape.Text))
+            {
+                //Do something (load tape in dgv)
+            }
+        }
+
+        private bool CheckTape(string newTape)
+        {
+            if (newTape != null)
+            {
+                foreach (var character in newTape)
+                {
+                    if (!TuringMachine.Alphabet.Contains(character))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
     }
 }

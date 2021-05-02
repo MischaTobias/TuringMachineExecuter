@@ -43,6 +43,7 @@ namespace TuringMachineExecuter
             this.lblLastMovement = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dgvTape = new System.Windows.Forms.DataGridView();
+            this.btnLoadTape = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTape)).BeginInit();
             this.SuspendLayout();
             // 
@@ -184,12 +185,24 @@ namespace TuringMachineExecuter
             this.dgvTape.Size = new System.Drawing.Size(530, 87);
             this.dgvTape.TabIndex = 13;
             // 
+            // btnLoadTape
+            // 
+            this.btnLoadTape.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnLoadTape.Location = new System.Drawing.Point(29, 144);
+            this.btnLoadTape.Name = "btnLoadTape";
+            this.btnLoadTape.Size = new System.Drawing.Size(140, 35);
+            this.btnLoadTape.TabIndex = 14;
+            this.btnLoadTape.Text = "Cargar Entrada";
+            this.btnLoadTape.UseVisualStyleBackColor = true;
+            this.btnLoadTape.Click += new System.EventHandler(this.btnLoadTape_Click);
+            // 
             // menuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(759, 450);
+            this.Controls.Add(this.btnLoadTape);
             this.Controls.Add(this.dgvTape);
             this.Controls.Add(this.lblLastMovement);
             this.Controls.Add(this.label6);
@@ -227,5 +240,6 @@ namespace TuringMachineExecuter
         private System.Windows.Forms.Label lblLastMovement;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView dgvTape;
+        private System.Windows.Forms.Button btnLoadTape;
     }
 }
