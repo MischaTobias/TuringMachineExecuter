@@ -9,5 +9,10 @@
         public string HeadMovement;
 
         public Transition() { }
+
+        public string PrintTransition()
+        {
+            return $"{CurrentState}, {ReadingCharacter}, {NextState}, {WritingCharacter}, {HeadMovement}";
+        }
     }
 }

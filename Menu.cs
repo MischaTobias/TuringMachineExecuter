@@ -3,12 +3,14 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using TuringMachineExecuter.Structures;
+using System.Collections.Generic;
 
 namespace TuringMachineExecuter
 {
     public partial class menuForm : Form
     {
         TuringMachine TuringMachine;
+        Tape TapeStep;
 
         public menuForm()
         {
@@ -83,15 +85,21 @@ namespace TuringMachineExecuter
         }
 
         private void btnLoadTape_Click(object sender, EventArgs e) {
-            if (CheckTape(txtInitTape.Text)) {
-                tape.Items.Clear();
-                foreach (var value in txtInitTape.Text) {
-                    tape.Items.Add(value);
-                }
-            } else {
+            TapeStep = new Tape();
+            if (CheckTape(txtInitTape.Text))
+            {
+                var word = "_" + txtInitTape.Text + "_";
+                foreach (var value in word)
+                    TapeStep.WordTape.Add(Convert.ToString(value));
+                printTape(TapeStep.WordTape);
+                TapeStep.CurrentPosition = 0;
+                TuringMachine.CurrentNode = TuringMachine.States.Find(x => x.State == TuringMachine.InitialState);
+                enableButtons(true);
+            }
+            else
+            {
                 MessageBox.Show("Entrada inválida, intente nuevamente, por favor");
             }
-
         }
 
         private bool CheckTape(string newTape) {
@@ -103,9 +111,7 @@ namespace TuringMachineExecuter
             return true;
         }
 
-        private void dgvTape_CellContentClick(object sender, DataGridViewCellEventArgs e) {
-
-        }
+       
 
         private void menuForm_Load(object sender, EventArgs e) {
             enableButtons(false);
@@ -119,6 +125,116 @@ namespace TuringMachineExecuter
             btnLoadTape.Enabled = state;
             btnNextStep.Enabled = state;
             btnStop.Enabled = state;
+        }
+
+
+
+        private void btnNextStep_Click(object sender, EventArgs e)
+        {
+            if (TapeStep != null)
+                MachineStep();
+            else
+                MessageBox.Show("Error de Ejecucion");
+        }
+
+        public void MachineStep()
+        {
+            bool acepted = false;
+            var letter = TapeStep.WordTape[TapeStep.CurrentPosition];
+            Node auxNode = TuringMachine.CurrentNode;
+            foreach (var item in auxNode.Transitions)
+            {
+                if (item.ReadingCharacter == letter)
+                {
+                    TapeStep.WordTape[TapeStep.CurrentPosition] = item.WritingCharacter;
+                    if (item.HeadMovement == "d" || item.HeadMovement == "D")
+                    {
+                        TapeStep.CurrentPosition++;
+                        TapeStep.Repetitions0 = 0;
+                        TapeStep.RepetitionsD = 0;
+                        TapeStep.RepetitionsI++;
+                    }
+                    else if (item.HeadMovement == "i" || item.HeadMovement == "I")
+                    {
+                        TapeStep.CurrentPosition--;
+                        TapeStep.Repetitions0 = 0;
+                        TapeStep.RepetitionsD = 0;
+                        TapeStep.RepetitionsI++;
+
+                    }
+                    else if (item.HeadMovement == "0")
+                    {
+                        TapeStep.Repetitions0++;
+                        TapeStep.RepetitionsD = 0;
+                        TapeStep.RepetitionsI = 1;
+                    }
+                    if (item.HeadMovement == "p" || item.HeadMovement == "P")
+                    {
+                        TapeStep.Repetitions0 = 0;
+                        TapeStep.RepetitionsI = 0;
+                        TapeStep.RepetitionsD = 0;
+                        if (formart())
+                            MessageBox.Show("Fin de la Ejecución");
+                        else
+                            MessageBox.Show("Formato de Salida Incorrecto");
+                        btnAutomatic.Enabled = false;
+                        btnNextStep.Enabled = false;
+                        btnStop.Enabled = false;
+                    }
+                    printTape(TapeStep.WordTape);
+                    TuringMachine.CurrentNode = TuringMachine.States.Find(x => x.State == item.NextState);
+                    lblCurrentNode.Text = TuringMachine.CurrentNode.State;
+                    lblLastMovement.Text = item.PrintTransition();
+                    acepted = true;
+                }
+                if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsI == 10 || TapeStep.RepetitionsD == 10)
+                {
+                    MessageBox.Show("Entro un bucle (No Hay solución)");
+                    btnAutomatic.Enabled = false;
+                    btnNextStep.Enabled = false;
+                    btnStop.Enabled = false;
+                }
+            }
+            if (!acepted)
+            {
+                btnAutomatic.Enabled = false;
+                btnNextStep.Enabled = false;
+                btnStop.Enabled = false;
+                lblCurrentNode.Text = TuringMachine.CurrentNode.State;
+                lblLastMovement.Text = "Transición No Existente";
+                MessageBox.Show("ERROR: No hay Trasicion");
+            }
+        }
+
+        public bool formart()
+        {
+            string word = "";
+            foreach (var item in TapeStep.WordTape)
+                word += item;
+            string[] array = word.Split('_');
+            if (array[0].Length == 0)
+                if (array[2].Length == 0)
+                    if (TapeStep.WordTape[TapeStep.CurrentPosition] == "_")
+                        return true;
+            return false;
+        }
+
+        public void printTape (List<string> word)
+        {
+            tape.Items.Clear();
+            foreach (var value in word)
+                tape.Items.Add(value);
+            tape.SetItemChecked(TapeStep.CurrentPosition,true);
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -5,7 +5,6 @@ namespace TuringMachineExecuter.Structures
     public class TuringMachine
     {
         public List<Node> States;
-        public Node StartNode;
         public Node CurrentNode;
         public ReadingHead Head;
         public List<char> Alphabet;

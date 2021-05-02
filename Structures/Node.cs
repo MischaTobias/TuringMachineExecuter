@@ -7,13 +7,11 @@ namespace TuringMachineExecuter.Structures
     {
         public string State;
         public List<Transition> Transitions;
-        public bool FinalState;
 
         public Node(){}
-        public Node(string state, bool final)
+        public Node(string state)
         {
             State = state;
-            FinalState = final;
         }
 
         public int CompareTo(object obj)
