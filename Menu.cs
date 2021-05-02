@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using TuringMachineExecuter.Structures;
@@ -7,20 +6,16 @@ using System.Collections.Generic;
 
 namespace TuringMachineExecuter
 {
-    public partial class menuForm : Form
-    {
+    public partial class menuForm : Form {
         TuringMachine TuringMachine;
         Tape TapeStep;
 
-        public menuForm()
-        {
+        public menuForm() {
             InitializeComponent();
         }
 
-        private void btnLoadFile_Click(object sender, EventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog()
-            {
+        private void btnLoadFile_Click(object sender, EventArgs e) {
+            var openFileDialog = new OpenFileDialog() {
                 Filter = "Text files (*.txt)|*.txt",
                 Title = "MT a ejecutar"
             };
@@ -86,8 +81,7 @@ namespace TuringMachineExecuter
 
         private void btnLoadTape_Click(object sender, EventArgs e) {
             TapeStep = new Tape();
-            if (CheckTape(txtInitTape.Text))
-            {
+            if (CheckTape(txtInitTape.Text)) {
                 var word = "_" + txtInitTape.Text + "_";
                 foreach (var value in word)
                     TapeStep.WordTape.Add(Convert.ToString(value));
@@ -95,10 +89,10 @@ namespace TuringMachineExecuter
                 TapeStep.CurrentPosition = 0;
                 TuringMachine.CurrentNode = TuringMachine.States.Find(x => x.State == TuringMachine.InitialState);
                 enableButtons(true);
-            }
-            else
-            {
+                btnLoadTape.Enabled = false;
+            } else {
                 MessageBox.Show("Entrada inválida, intente nuevamente, por favor");
+                txtInitTape.Text = "";
             }
         }
 
@@ -108,15 +102,16 @@ namespace TuringMachineExecuter
                     return false;
                 }
             }
+            if (newTape.Equals("")) {
+                return false;
+            }
             return true;
         }
-
-       
 
         private void menuForm_Load(object sender, EventArgs e) {
             enableButtons(false);
             txtFile.Enabled = false;
-            
+            btnAutomatic.Enabled = false;
         }
 
 
@@ -127,35 +122,27 @@ namespace TuringMachineExecuter
             btnStop.Enabled = state;
         }
 
-
-
-        private void btnNextStep_Click(object sender, EventArgs e)
-        {
+        private void btnNextStep_Click(object sender, EventArgs e) {
             if (TapeStep != null)
                 MachineStep();
             else
                 MessageBox.Show("Error de Ejecucion");
         }
 
-        public void MachineStep()
-        {
+        public void MachineStep() {
             bool acepted = false;
             var letter = TapeStep.WordTape[TapeStep.CurrentPosition];
             Node auxNode = TuringMachine.CurrentNode;
-            foreach (var item in auxNode.Transitions)
-            {
-                if (item.ReadingCharacter == letter)
-                {
+            foreach (var item in auxNode.Transitions) {
+                if (item.ReadingCharacter == letter) {
                     TapeStep.WordTape[TapeStep.CurrentPosition] = item.WritingCharacter;
-                    if (item.HeadMovement == "d" || item.HeadMovement == "D")
-                    {
+                    if (item.HeadMovement == "d" || item.HeadMovement == "D") {
                         TapeStep.CurrentPosition++;
                         TapeStep.Repetitions0 = 0;
                         TapeStep.RepetitionsD = 0;
                         TapeStep.RepetitionsI++;
-                    }
-                    else if (item.HeadMovement == "i" || item.HeadMovement == "I")
-                    {
+
+                    } else if (item.HeadMovement == "i" || item.HeadMovement == "I") {
                         TapeStep.CurrentPosition--;
                         TapeStep.Repetitions0 = 0;
                         TapeStep.RepetitionsD = 0;
@@ -173,13 +160,16 @@ namespace TuringMachineExecuter
                         TapeStep.Repetitions0 = 0;
                         TapeStep.RepetitionsI = 0;
                         TapeStep.RepetitionsD = 0;
-                        if (formart())
+                        if (formart()) {
+                            tmrAutomatic.Enabled = false;
                             MessageBox.Show("Fin de la Ejecución");
-                        else
+                            
+                        }else {
+                            tmrAutomatic.Enabled = false;
                             MessageBox.Show("Formato de Salida Incorrecto");
-                        btnAutomatic.Enabled = false;
-                        btnNextStep.Enabled = false;
-                        btnStop.Enabled = false;
+                            
+                        }
+                        enableButtons(false);
                     }
                     printTape(TapeStep.WordTape);
                     TuringMachine.CurrentNode = TuringMachine.States.Find(x => x.State == item.NextState);
@@ -187,27 +177,30 @@ namespace TuringMachineExecuter
                     lblLastMovement.Text = item.PrintTransition();
                     acepted = true;
                 }
-                if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsI == 10 || TapeStep.RepetitionsD == 10)
-                {
-                    MessageBox.Show("Entro un bucle (No Hay solución)");
-                    btnAutomatic.Enabled = false;
-                    btnNextStep.Enabled = false;
-                    btnStop.Enabled = false;
+                if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsI == 10 || TapeStep.RepetitionsD == 10) {
+                    enableButtons(false);
+                    tmrAutomatic.Enabled = false;
+                    DialogResult dialogResult = MessageBox.Show($"La máquina entró en un bucle, \n ¿desea intentar nuevamente con otra cadena en la cinta?", "¡No hay solución!", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes) {
+                        enableButtons(true);
+                        txtInitTape.Text = "";
+                        tape.Items.Clear();
+                        break;
+                    }else {
+                        Application.Exit();
+                    }
                 }
             }
-            if (!acepted)
-            {
-                btnAutomatic.Enabled = false;
-                btnNextStep.Enabled = false;
-                btnStop.Enabled = false;
+            if (!acepted) {
+                enableButtons(false);
                 lblCurrentNode.Text = TuringMachine.CurrentNode.State;
                 lblLastMovement.Text = "Transición No Existente";
                 MessageBox.Show("ERROR: No hay Trasicion");
+                tmrAutomatic.Enabled = false;
             }
         }
 
-        public bool formart()
-        {
+        public bool formart() {
             string word = "";
             foreach (var item in TapeStep.WordTape)
                 word += item;
@@ -227,14 +220,30 @@ namespace TuringMachineExecuter
             tape.SetItemChecked(TapeStep.CurrentPosition,true);
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-
+        private void btnStop_Click(object sender, EventArgs e) {
+            tmrAutomatic.Enabled = false;
+            btnAutomatic.Enabled = true;
+            btnNextStep.Enabled = true;
         }
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void tmrAutomatic_Tick(object sender, EventArgs e) {
+            MachineStep();
+            btnAutomatic.Enabled = false;
+            btnNextStep.Enabled = false;
+        }
+
+        private void btnAutomatic_Click(object sender, EventArgs e){
+            tmrAutomatic.Enabled = true;
+        }
+
+        private void btnReset_Click(object sender, EventArgs e) {
+            Application.Restart();
+            Environment.Exit(0);
         }
     }
 }
