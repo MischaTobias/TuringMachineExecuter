@@ -54,6 +54,17 @@ namespace TuringMachineExecuter
                             {
                                 MessageBox.Show("Entrada inválida, tiene menos estados de los indicados");
                                 TuringMachine.Usable = false;
+                                return;
+                            }
+                            if (TuringMachine.CheckInitialState())
+                            {
+                                lblCurrentNode.Text = TuringMachine.InitialState;
+                                lblTuringFile.Text = fileName;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Entrada inválida, el estado inicial no pertenece al conjunto de estados ingresados");
+                                TuringMachine.Usable = false;
                             }
                         }
                     }
@@ -77,20 +88,16 @@ namespace TuringMachineExecuter
             }
         }
 
-        private bool CheckTape(string newTape)
+        private bool CheckTape(string newTape)//Probablemente validar no sea nulo
         {
-            if (newTape != null)
+            foreach (var character in newTape)
             {
-                foreach (var character in newTape)
+                if (!TuringMachine.Alphabet.Contains(character))
                 {
-                    if (!TuringMachine.Alphabet.Contains(character))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                return true;
             }
-            return false;
+            return true;
         }
     }
 }

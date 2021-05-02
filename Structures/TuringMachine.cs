@@ -85,5 +85,17 @@ namespace TuringMachineExecuter.Structures
                 }
             }
         }
+
+        public bool CheckInitialState()
+        {
+            foreach (var state in States)
+            {
+                if (state.State == InitialState)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
