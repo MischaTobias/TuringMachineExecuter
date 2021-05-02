@@ -30,8 +30,8 @@ namespace TuringMachineExecuter
                     var filepath = openFileDialog.FileName;
                     var fileName = Path.GetFileName(filepath);
                     DialogResult dialogResult = MessageBox.Show($"¿Quiere continuar y colocar {fileName} como la MT a ejecutar?", "Confirmar MT", MessageBoxButtons.YesNo);
-                    //if (dialogResult == DialogResult.Yes)
-                   // {
+                    if (dialogResult == DialogResult.Yes)
+                    {
                         enableButtons(true);
                         var onlyFileName = Path.GetFileName(filepath);
                         var fileStream = openFileDialog.OpenFile();
@@ -69,11 +69,11 @@ namespace TuringMachineExecuter
                                 TuringMachine.Usable = false;
                             }
                         }
-                    //}
-                    //else
-                    //{
+                    }
+                    else
+                    {
                         return;
-                    //}
+                    }
                 }
             }
             catch
@@ -119,31 +119,6 @@ namespace TuringMachineExecuter
             btnLoadTape.Enabled = state;
             btnNextStep.Enabled = state;
             btnStop.Enabled = state;
-        }
-
-        private void checkedTape_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkedTape_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tape_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
