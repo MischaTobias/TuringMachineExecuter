@@ -145,6 +145,7 @@ namespace TuringMachineExecuter
         }
 
         private void btnNextStep_Click(object sender, EventArgs e) {
+            btnStop.Enabled = false;
             if (TapeStep != null)
                 MachineStep();
             else
@@ -272,6 +273,7 @@ namespace TuringMachineExecuter
         private void btnAutomatic_Click(object sender, EventArgs e){
             tmrAutomatic.Enabled = true;
             lblEjecution.Visible = true;
+            btnStop.Enabled = true;
             checkBox1.Visible = true;
             checkBox2.Visible = true;
             checkBox3.Visible = true;

@@ -83,7 +83,7 @@ namespace TuringMachineExecuter
             // txtInitTape
             // 
             this.txtInitTape.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtInitTape.Location = new System.Drawing.Point(239, 235);
+            this.txtInitTape.Location = new System.Drawing.Point(79, 244);
             this.txtInitTape.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtInitTape.Name = "txtInitTape";
             this.txtInitTape.Size = new System.Drawing.Size(358, 31);
@@ -140,7 +140,7 @@ namespace TuringMachineExecuter
             // btnLoadTape
             // 
             this.btnLoadTape.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLoadTape.Location = new System.Drawing.Point(76, 230);
+            this.btnLoadTape.Location = new System.Drawing.Point(446, 240);
             this.btnLoadTape.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnLoadTape.Name = "btnLoadTape";
             this.btnLoadTape.Size = new System.Drawing.Size(151, 38);
