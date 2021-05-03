@@ -130,6 +130,10 @@ namespace TuringMachineExecuter
             enableButtons(false);
             txtFile.Enabled = false;
             btnAutomatic.Enabled = false;
+            lblEjecution.Visible = false;
+            checkBox1.Visible = false;
+            checkBox2.Visible = false;
+            checkBox3.Visible = false;
         }
 
 
@@ -248,6 +252,10 @@ namespace TuringMachineExecuter
             tmrAutomatic.Enabled = false;
             btnAutomatic.Enabled = true;
             btnNextStep.Enabled = true;
+            lblEjecution.Visible = false;
+            checkBox1.Visible = false;
+            checkBox2.Visible = false;
+            checkBox3.Visible = false;
         }
 
         private void pictureBox5_Click(object sender, EventArgs e)
@@ -263,11 +271,34 @@ namespace TuringMachineExecuter
 
         private void btnAutomatic_Click(object sender, EventArgs e){
             tmrAutomatic.Enabled = true;
+            lblEjecution.Visible = true;
+            checkBox1.Visible = true;
+            checkBox2.Visible = true;
+            checkBox3.Visible = true;
+            checkBox2.Checked = true;
         }
 
         private void btnReset_Click(object sender, EventArgs e) {
             Application.Restart();
             Environment.Exit(0);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+            tmrAutomatic.Interval = 1000;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e) {
+            tmrAutomatic.Interval = 1500;
+            checkBox1.Checked = false;
+            checkBox3.Checked = false;
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e) {
+            tmrAutomatic.Interval = 3000;
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
         }
     }
 }
