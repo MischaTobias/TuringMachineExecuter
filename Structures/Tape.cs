@@ -7,7 +7,6 @@ namespace TuringMachineExecuter.Structures
         public int CurrentPosition;
         public List<string> WordTape;
         public int Repetitions0;
-        public int RepetitionsI;
         public int RepetitionsD;
 
         public Tape()

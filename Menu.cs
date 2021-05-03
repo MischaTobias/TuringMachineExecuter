@@ -12,6 +12,7 @@ namespace TuringMachineExecuter
 
         public menuForm() {
             InitializeComponent();
+            TuringMachine = new TuringMachine();
         }
 
         private void btnLoadFile_Click(object sender, EventArgs e) {
@@ -45,6 +46,7 @@ namespace TuringMachineExecuter
                                 if (transitionResult != "Transición creada correctamente")
                                 {
                                     MessageBox.Show(transitionResult);
+                                    enableButtons(false);
                                     TuringMachine.Usable = false;
                                     break;
                                 }
@@ -52,6 +54,7 @@ namespace TuringMachineExecuter
                             if (TuringMachine.States.Count != TuringMachine.NoOfStates)
                             {
                                 MessageBox.Show("Entrada inválida, tiene menos estados de los indicados");
+                                enableButtons(false);
                                 TuringMachine.Usable = false;
                                 return;
                             }
@@ -59,10 +62,13 @@ namespace TuringMachineExecuter
                             {
                                 lblCurrentNode.Text = TuringMachine.InitialState;
                                 txtFile.Text = fileName;
+                                enableButtons(true);
+                                TuringMachine.Usable = true;
                             }
                             else
                             {
                                 MessageBox.Show("Entrada inválida, el estado inicial no pertenece al conjunto de estados ingresados");
+                                enableButtons(false);
                                 TuringMachine.Usable = false;
                             }
                         }
@@ -76,23 +82,35 @@ namespace TuringMachineExecuter
             catch
             {
                 MessageBox.Show("El formato del archivo de entrada es incorrecto, \npor favor inténtelo nuevamente.");
+                enableButtons(false);
+                TuringMachine.Usable = false;
             }
         }
 
         private void btnLoadTape_Click(object sender, EventArgs e) {
-            TapeStep = new Tape();
-            if (CheckTape(txtInitTape.Text)) {
-                var word = "_" + txtInitTape.Text + "_";
-                foreach (var value in word)
-                    TapeStep.WordTape.Add(Convert.ToString(value));
-                printTape(TapeStep.WordTape);
-                TapeStep.CurrentPosition = 0;
-                TuringMachine.CurrentNode = TuringMachine.States.Find(x => x.State == TuringMachine.InitialState);
-                enableButtons(true);
-                btnLoadTape.Enabled = false;
-            } else {
-                MessageBox.Show("Entrada inválida, intente nuevamente, por favor");
-                txtInitTape.Text = "";
+            if (TuringMachine.Usable)
+            {
+                TapeStep = new Tape();
+                if (CheckTape(txtInitTape.Text))
+                {
+                    var word = "_" + txtInitTape.Text + "_";
+                    foreach (var value in word)
+                        TapeStep.WordTape.Add(Convert.ToString(value));
+                    printTape(TapeStep.WordTape);
+                    TapeStep.CurrentPosition = 0;
+                    TuringMachine.CurrentNode = TuringMachine.States.Find(x => x.State == TuringMachine.InitialState);
+                    enableButtons(true);
+                    btnLoadTape.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Entrada inválida, intente nuevamente, por favor");
+                    txtInitTape.Text = "";
+                }
+            }
+            else
+            {
+                MessageBox.Show("El formato del archivo de entrada es incorrecto, \npor favor inténtelo nuevamente.");
             }
         }
 
@@ -139,26 +157,32 @@ namespace TuringMachineExecuter
                     if (item.HeadMovement == "d" || item.HeadMovement == "D") {
                         TapeStep.CurrentPosition++;
                         TapeStep.Repetitions0 = 0;
-                        TapeStep.RepetitionsD = 0;
-                        TapeStep.RepetitionsI++;
-
+                        if (letter != " ")
+                        {
+                            TapeStep.RepetitionsD = 0;
+                        }
+                        else
+                        {
+                            TapeStep.RepetitionsD++;
+                        }
                     } else if (item.HeadMovement == "i" || item.HeadMovement == "I") {
                         TapeStep.CurrentPosition--;
                         TapeStep.Repetitions0 = 0;
                         TapeStep.RepetitionsD = 0;
-                        TapeStep.RepetitionsI++;
-
+                        if (TapeStep.CurrentPosition < 0)
+                        {
+                            MessageBox.Show("MT inválida, la cinta no es infinita hacia la izquierda");
+                            enableButtons(false);
+                        }
                     }
                     else if (item.HeadMovement == "0")
                     {
                         TapeStep.Repetitions0++;
                         TapeStep.RepetitionsD = 0;
-                        TapeStep.RepetitionsI = 1;
                     }
                     if (item.HeadMovement == "p" || item.HeadMovement == "P")
                     {
                         TapeStep.Repetitions0 = 0;
-                        TapeStep.RepetitionsI = 0;
                         TapeStep.RepetitionsD = 0;
                         if (formart()) {
                             tmrAutomatic.Enabled = false;
@@ -177,7 +201,7 @@ namespace TuringMachineExecuter
                     lblLastMovement.Text = item.PrintTransition();
                     acepted = true;
                 }
-                if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsI == 10 || TapeStep.RepetitionsD == 10) {
+                if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsD == 10) {
                     enableButtons(false);
                     tmrAutomatic.Enabled = false;
                     DialogResult dialogResult = MessageBox.Show($"La máquina entró en un bucle, \n ¿desea intentar nuevamente con otra cadena en la cinta?", "¡No hay solución!", MessageBoxButtons.YesNo);
