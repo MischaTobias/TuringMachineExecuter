@@ -178,6 +178,7 @@ namespace TuringMachineExecuter
                         TapeStep.RepetitionsD = 0;
                         if (TapeStep.CurrentPosition < 0)
                         {
+                            tmrAutomatic.Enabled = false;
                             MessageBox.Show("MT inválida, la cinta no es infinita hacia la izquierda");
                             enableButtons(false);
                         }
@@ -224,10 +225,11 @@ namespace TuringMachineExecuter
             }
             if (!acepted) {
                 enableButtons(true);
+                tmrAutomatic.Enabled = false;
                 lblCurrentNode.Text = TuringMachine.CurrentNode.State;
                 lblLastMovement.Text = "Transición No Existente";
                 MessageBox.Show("ERROR: No hay Trasicion");
-                tmrAutomatic.Enabled = false;
+                
             }
         }
 
