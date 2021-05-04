@@ -16,6 +16,8 @@ namespace TuringMachineExecuter
         }
 
         private void btnLoadFile_Click(object sender, EventArgs e) {
+            txtInitTape.Text = "";
+            tape.Items.Clear();
             var openFileDialog = new OpenFileDialog() {
                 Filter = "Text files (*.txt)|*.txt",
                 Title = "MT a ejecutar"
@@ -221,7 +223,7 @@ namespace TuringMachineExecuter
                 }
             }
             if (!acepted) {
-                enableButtons(false);
+                enableButtons(true);
                 lblCurrentNode.Text = TuringMachine.CurrentNode.State;
                 lblLastMovement.Text = "Transición No Existente";
                 MessageBox.Show("ERROR: No hay Trasicion");
@@ -234,9 +236,11 @@ namespace TuringMachineExecuter
             foreach (var item in TapeStep.WordTape)
                 word += item;
             string[] array = word.Split('_');
-            if (array[0].Length == 0)
+            if (array[0].Length == 0 || array[0].Length == 2)
                 if (array[2].Length == 0)
                     if (TapeStep.WordTape[TapeStep.CurrentPosition] == "_")
+                        return true;
+                    else
                         return true;
             return false;
         }
