@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TuringMachineExecuter.Structures
 {
@@ -19,12 +20,21 @@ namespace TuringMachineExecuter.Structures
             NoOfStates = statesQty;
             InitialState = initialState;
             Alphabet = new List<char>(alphabet.ToCharArray());
+            if (!Alphabet.Contains('_'))
+                Alphabet.Add('_');
             Usable = true;
         }
 
         public string AddTransition(string transition)
         {
+
+            //Validar Transiciones cuando leemos el mismo caracter NO SE PUEDE
             var transitionParts = transition.Split(',');
+            //Validar Caracteres que esten en el alfabeto 
+            if (!Alphabet.Contains(Convert.ToChar(transitionParts[1])))
+                return "Transicion con caracter que no esta en el alfabeto";
+            if (!Alphabet.Contains(Convert.ToChar(transitionParts[3])))
+                return "Transicion con caracter que no esta en el alfabeto";
             if (transitionParts.Length != 5)
             {
                 return "Formato incorrecto";

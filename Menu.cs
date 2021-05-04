@@ -40,9 +40,19 @@ namespace TuringMachineExecuter
                             var alphabet = reader.ReadLine(); //alphabet
                             TuringMachine = new TuringMachine(Convert.ToInt32(line), initialState, alphabet);
                             var transitionResult = string.Empty;
+                            Dictionary<string,string> D_trasition = new Dictionary<string, string>();
                             while ((line = reader.ReadLine()) != null) //Transitions
                             {
                                 transitionResult = TuringMachine.AddTransition(line);
+                                string[] auxtrasition = line.Split(',');
+                                string key = auxtrasition[0] + auxtrasition[1];
+                                if (!D_trasition.TryAdd(key, transitionResult))
+                                {
+                                    MessageBox.Show("Entrada inválida, tiene dos caracteres al mismo estado");
+                                    enableButtons(false);
+                                    TuringMachine.Usable = false;
+                                    return;
+                                }
                                 if (transitionResult != "Transición creada correctamente")
                                 {
                                     MessageBox.Show(transitionResult);
@@ -62,8 +72,8 @@ namespace TuringMachineExecuter
                             {
                                 lblCurrentNode.Text = TuringMachine.InitialState;
                                 txtFile.Text = fileName;
-                                enableButtons(true);
-                                TuringMachine.Usable = true;
+                                enableButtons(false);
+                                btnLoadTape.Enabled = true;
                             }
                             else
                             {
@@ -162,13 +172,15 @@ namespace TuringMachineExecuter
                     if (item.HeadMovement == "d" || item.HeadMovement == "D") {
                         TapeStep.CurrentPosition++;
                         TapeStep.Repetitions0 = 0;
-                        if (letter != " ")
+                        if (letter != "_")
                         {
                             TapeStep.RepetitionsD = 0;
                         }
                         else
                         {
                             TapeStep.RepetitionsD++;
+                            if(TapeStep.CurrentPosition == TapeStep.WordTape.Count)
+                                TapeStep.WordTape.Add("_");
                         }
                     } else if (item.HeadMovement == "i" || item.HeadMovement == "I") {
                         TapeStep.CurrentPosition--;
@@ -191,7 +203,7 @@ namespace TuringMachineExecuter
                         TapeStep.RepetitionsD = 0;
                         if (formart()) {
                             tmrAutomatic.Enabled = false;
-                            MessageBox.Show("Fin de la Ejecución");
+                            MessageBox.Show("Fin de la Ejecicion, \nEjecución Exitosa");
                             
                         }else {
                             tmrAutomatic.Enabled = false;
@@ -209,7 +221,7 @@ namespace TuringMachineExecuter
                 if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsD == 10) {
                     enableButtons(false);
                     tmrAutomatic.Enabled = false;
-                    DialogResult dialogResult = MessageBox.Show($"La máquina entró en un bucle, \n ¿desea intentar nuevamente con otra cadena en la cinta?", "¡No hay solución!", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show($"La entrada ha sido rechazada, \n ¿desea intentar nuevamente con otra cadena en la cinta?", "¡No hay solución!", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes) {
                         enableButtons(true);
                         txtInitTape.Text = "";
