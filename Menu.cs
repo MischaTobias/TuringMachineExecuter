@@ -48,7 +48,7 @@ namespace TuringMachineExecuter
                                 string key = auxtrasition[0] + auxtrasition[1];
                                 if (!D_trasition.TryAdd(key, transitionResult))
                                 {
-                                    MessageBox.Show("Entrada inválida, tiene dos caracteres al mismo estado");
+                                    MessageBox.Show("Entrada inválida, un estado tiene más de una transición con el mismo caracter");
                                     enableButtons(false);
                                     TuringMachine.Usable = false;
                                     return;
