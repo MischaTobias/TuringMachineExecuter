@@ -180,7 +180,7 @@ namespace TuringMachineExecuter
             var letter = TapeStep.WordTape[TapeStep.CurrentPosition];
             Node auxNode = TuringMachine.GetCurrentNode();
             var transitionList = auxNode.GetTransitions().Where(x => x.ReadingCharacter == letter);
-            if (transitionList.Count() > 0)
+            if (transitionList.Any())
             {
                 var transition = transitionList.First();
                 TapeStep.WordTape[TapeStep.CurrentPosition] = transition.WritingCharacter;
