@@ -27,22 +27,26 @@ namespace TuringMachineExecuter
 
             try
             {
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
+                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                    
                     var filepath = openFileDialog.FileName;
                     var fileName = Path.GetFileName(filepath);
-                    DialogResult dialogResult = MessageBox.Show($"¿Quiere continuar y colocar {fileName} como la MT a ejecutar?", "Confirmar MT", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        EnableButtons(true);
-                        var onlyFileName = Path.GetFileName(filepath);
-                        GenerateTuringMachineFromFile(openFileDialog.OpenFile(), fileName);
+                    if (openFileDialog.OpenFile().Length != 0) {
+                        DialogResult dialogResult = MessageBox.Show($"¿Seguro que desea utilizar {fileName} como la máquina de turing a interpretar?", "Confirmar máquina de turing", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            EnableButtons(true);
+                            var onlyFileName = Path.GetFileName(filepath);
+                            GenerateTuringMachineFromFile(openFileDialog.OpenFile(), fileName);
+                        }
+                    } else {
+                        MessageBox.Show("ERROR: el archivo se encuentra vacío, intenta nuevamente con uno distinto.");
                     }
                 }
             }
             catch
             {
-                MessageBox.Show("El formato del archivo de entrada es incorrecto, \npor favor inténtelo nuevamente.");
+                MessageBox.Show("ERROR: el formato del archivo de entrada es incorrecto, inténtalo nuevamente.");
                 EnableButtons(false);
                 TuringMachine.SetUse(false);
             }
@@ -65,7 +69,7 @@ namespace TuringMachineExecuter
                     string key = auxtrasition[0] + auxtrasition[1];
                     if (!StateTransitions.TryAdd(key, transitionResult))
                     {
-                        MessageBox.Show("Entrada inválida, un estado tiene más de una transición con el mismo caracter");
+                        MessageBox.Show("ERROR: un estado tiene más de una transición con el mismo símbolo.");
                         EnableButtons(false);
                         TuringMachine.SetUse(false);
                         return;
@@ -80,7 +84,7 @@ namespace TuringMachineExecuter
                 }
                 if (!TuringMachine.StatesValidness())
                 {
-                    MessageBox.Show("Entrada inválida, tiene menos estados de los indicados");
+                    MessageBox.Show("ERROR: la máquina cuenta con menos estados de los descritos.");
                     EnableButtons(false);
                     TuringMachine.SetUse(false);
                     return;
@@ -94,7 +98,7 @@ namespace TuringMachineExecuter
                 }
                 else
                 {
-                    MessageBox.Show("Entrada inválida, el estado inicial no pertenece al conjunto de estados ingresados");
+                    MessageBox.Show("ERROR: el estado inicial no pertenece al conjunto de estados ingresados en la definición de la máquina.");
                     EnableButtons(false);
                     TuringMachine.SetUse(false);
                 }
@@ -120,13 +124,13 @@ namespace TuringMachineExecuter
                 }
                 else
                 {
-                    MessageBox.Show("Entrada inválida, intente nuevamente, por favor");
+                    MessageBox.Show("ERROR: entrada inválida, intentelo nuevamente.");
                     txtInitTape.Text = "";
                 }
             }
             else
             {
-                MessageBox.Show("El formato del archivo de entrada es incorrecto, \npor favor inténtelo nuevamente.");
+                MessageBox.Show("ERROR: el formato del archivo de entrada es incorrecto, por favor inténtelo nuevamente.");
             }
         }
 
@@ -169,7 +173,7 @@ namespace TuringMachineExecuter
             btnStop.Enabled = false;
             if (TapeStep == null)
             {
-                MessageBox.Show("Error de Ejecucion");
+                MessageBox.Show("ERROR: ocurrió un inconveniente en el proceso de ejecución, inténtalo nuevamente");
                 return;
             }
             MachineStep();
@@ -207,8 +211,8 @@ namespace TuringMachineExecuter
             {
                 EnableButtons(false);
                 lblCurrentNode.Text = TuringMachine.GetCurrentNode().GetState();
-                lblLastMovement.Text = "Transición No Existente";
-                MessageBox.Show("ERROR: No hay Trasicion");
+                lblLastMovement.Text = "ERROR: transición inválida";
+                MessageBox.Show("ERROR: No hay trasición definida");
                 tmrAutomatic.Enabled = false;
             }
         }
@@ -239,7 +243,7 @@ namespace TuringMachineExecuter
                 TapeStep.RepetitionsD = 0;
                 if (TapeStep.CurrentPosition < 0)
                 {
-                    MessageBox.Show("MT inválida, la cinta no es infinita hacia la izquierda");
+                    MessageBox.Show("ERROR: máquina inválida, la cinta no es infinita hacia la izquierda.");
                     EnableButtons(false);
                 }
                 return;
@@ -259,12 +263,14 @@ namespace TuringMachineExecuter
                 if (Format())
                 {
                     tmrAutomatic.Enabled = false;
-                    MessageBox.Show("Fin de la Ejecicion, \nEjecución Exitosa");
+                    MessageBox.Show("¡La ejecución ha culminado satisfactoriamente!");
+                    Application.Restart();
+                    Environment.Exit(0);
                 }
                 else
                 {
                     tmrAutomatic.Enabled = false;
-                    MessageBox.Show("Formato de Salida Incorrecto");
+                    MessageBox.Show("ERROR: La máquina de turing cuenta con un formato de salida incorrecto");
                 }
                 EnableButtons(false);
             }
@@ -324,21 +330,21 @@ namespace TuringMachineExecuter
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
-            tmrAutomatic.Interval = 1000;
             checkBox2.Checked = false;
             checkBox3.Checked = false;
+            tmrAutomatic.Interval = 950;
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e) {
-            tmrAutomatic.Interval = 1500;
             checkBox1.Checked = false;
             checkBox3.Checked = false;
+            tmrAutomatic.Interval = 1500;
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e) {
-            tmrAutomatic.Interval = 3000;
             checkBox1.Checked = false;
             checkBox2.Checked = false;
+            tmrAutomatic.Interval = 3000;
         }
     }
 }

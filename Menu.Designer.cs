@@ -60,6 +60,7 @@ namespace TuringMachineExecuter
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.lblEjecution = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -130,12 +131,11 @@ namespace TuringMachineExecuter
             this.lblLastMovement.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblLastMovement.AutoSize = true;
             this.lblLastMovement.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblLastMovement.Location = new System.Drawing.Point(274, 557);
+            this.lblLastMovement.Location = new System.Drawing.Point(248, 557);
             this.lblLastMovement.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastMovement.Name = "lblLastMovement";
-            this.lblLastMovement.Size = new System.Drawing.Size(163, 28);
+            this.lblLastMovement.Size = new System.Drawing.Size(0, 28);
             this.lblLastMovement.TabIndex = 12;
-            this.lblLastMovement.Text = "lblLastMovement";
             // 
             // btnLoadTape
             // 
@@ -241,11 +241,11 @@ namespace TuringMachineExecuter
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
             this.label2.Location = new System.Drawing.Point(79, 522);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 28);
+            this.label2.Size = new System.Drawing.Size(136, 28);
             this.label2.TabIndex = 23;
             this.label2.Text = "Estado actual:";
             // 
@@ -254,22 +254,21 @@ namespace TuringMachineExecuter
             this.lblCurrentNode.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblCurrentNode.AutoSize = true;
             this.lblCurrentNode.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblCurrentNode.Location = new System.Drawing.Point(234, 522);
+            this.lblCurrentNode.Location = new System.Drawing.Point(208, 522);
             this.lblCurrentNode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCurrentNode.Name = "lblCurrentNode";
-            this.lblCurrentNode.Size = new System.Drawing.Size(148, 28);
+            this.lblCurrentNode.Size = new System.Drawing.Size(0, 28);
             this.lblCurrentNode.TabIndex = 10;
-            this.lblCurrentNode.Text = "lblCurrentNode";
             // 
             // label5
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
             this.label5.Location = new System.Drawing.Point(79, 557);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(180, 28);
+            this.label5.Size = new System.Drawing.Size(174, 28);
             this.label5.TabIndex = 24;
             this.label5.Text = "Última transición:";
             // 
@@ -390,6 +389,16 @@ namespace TuringMachineExecuter
             this.lblEjecution.TabIndex = 33;
             this.lblEjecution.Text = "Velocidad de ejecución:";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI Black", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label7.Location = new System.Drawing.Point(327, 18);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(219, 30);
+            this.label7.TabIndex = 34;
+            this.label7.Text = "Máquina de Turing";
+            // 
             // menuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -397,6 +406,7 @@ namespace TuringMachineExecuter
             this.AutoSize = true;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(861, 657);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.lblEjecution);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
@@ -476,5 +486,6 @@ namespace TuringMachineExecuter
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Label lblEjecution;
+        private System.Windows.Forms.Label label7;
     }
 }
