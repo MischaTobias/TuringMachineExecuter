@@ -177,40 +177,39 @@ namespace TuringMachineExecuter
 
         public void MachineStep()
         {
-            bool acepted = false;
             var letter = TapeStep.WordTape[TapeStep.CurrentPosition];
             Node auxNode = TuringMachine.GetCurrentNode();
-            var transition = auxNode.GetTransitions().First(x => x.ReadingCharacter == letter);
-            TapeStep.WordTape[TapeStep.CurrentPosition] = transition.WritingCharacter;
-            MoveTape(transition, letter);
-            PrintTape(TapeStep.WordTape);
-            TuringMachine.SetCurrentNode(TuringMachine.GetStates().Find(x => x.GetState() == transition.NextState));
-            lblCurrentNode.Text = TuringMachine.GetCurrentNode().GetState();
-            lblLastMovement.Text = transition.PrintTransition();
-            acepted = true;
-            if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsD == 10)
+            var transitionList = auxNode.GetTransitions().Where(x => x.ReadingCharacter == letter);
+            if (transitionList.Count() > 0)
             {
-                EnableButtons(false);
-                tmrAutomatic.Enabled = false;
-                DialogResult dialogResult = MessageBox.Show($"La entrada ha sido rechazada, \n ¿desea intentar nuevamente con otra cadena en la cinta?", "¡No hay solución!", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    EnableButtons(true);
-                    txtInitTape.Text = "";
-                    tape.Items.Clear();
-                    return;
-                }
-                Application.Exit();
-            }
-
-            if (!acepted)
-            {
-                EnableButtons(false);
+                var transition = transitionList.First();
+                TapeStep.WordTape[TapeStep.CurrentPosition] = transition.WritingCharacter;
+                MoveTape(transition, letter);
+                PrintTape(TapeStep.WordTape);
+                TuringMachine.SetCurrentNode(TuringMachine.GetStates().Find(x => x.GetState() == transition.NextState));
                 lblCurrentNode.Text = TuringMachine.GetCurrentNode().GetState();
-                lblLastMovement.Text = "Transición No Existente";
-                MessageBox.Show("ERROR: No hay Trasicion");
-                tmrAutomatic.Enabled = false;
+                lblLastMovement.Text = transition.PrintTransition();
+                if (TapeStep.Repetitions0 == 10 || TapeStep.RepetitionsD == 10)
+                {
+                    EnableButtons(false);
+                    tmrAutomatic.Enabled = false;
+                    DialogResult dialogResult = MessageBox.Show($"La entrada ha sido rechazada, \n ¿desea intentar nuevamente con otra cadena en la cinta?", "¡No hay solución!", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        EnableButtons(true);
+                        txtInitTape.Text = "";
+                        tape.Items.Clear();
+                        return;
+                    }
+                    Application.Exit();
+                }
+                return;
             }
+            EnableButtons(false);
+            lblCurrentNode.Text = TuringMachine.GetCurrentNode().GetState();
+            lblLastMovement.Text = "Transición No Existente";
+            MessageBox.Show("ERROR: No hay Trasicion");
+            tmrAutomatic.Enabled = false;
         }
 
         private void MoveTape(Transition transition, string letter)
