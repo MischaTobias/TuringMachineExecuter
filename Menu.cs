@@ -259,7 +259,7 @@ namespace TuringMachineExecuter
                 else
                 {
                     tmrAutomatic.Enabled = false;
-                    MessageBox.Show("Formato de Salida Incorrecto");
+                    MessageBox.Show("Formato de salida inválido. \nEjecución Terminada.");
                 }
                 EnableButtons(false);
             }
