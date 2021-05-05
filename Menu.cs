@@ -132,10 +132,6 @@ namespace TuringMachineExecuter
 
         private bool CheckTape(string newTape)
         {
-            if (newTape.Equals(""))
-            {
-                return false;
-            }
             foreach (var character in newTape)
             {
                 if (!TuringMachine.CharacterInAlphabet(character))

@@ -19,9 +19,7 @@ namespace TuringMachineExecuter.Structures
             States = new List<Node>();
             NoOfStates = statesQty;
             InitialState = initialState;
-            Alphabet = new List<char>(alphabet.ToCharArray());
-            if (!Alphabet.Contains('_'))
-                Alphabet.Add('_');
+            GenerateAlphabet(alphabet);
             Usable = true;
         }
 
@@ -36,9 +34,17 @@ namespace TuringMachineExecuter.Structures
         public List<char> GetAlphabet() { return Alphabet; }
         public Node GetCurrentNode() { return CurrentNode; }
 
+        private void GenerateAlphabet(string alphabet)
+        {
+            Alphabet = new List<char>(alphabet.ToCharArray());
+            if (!Alphabet.Contains('_'))
+            {
+                Alphabet.Add('_');
+            }
+        }
+
         public string AddTransition(string transition)
         {
-
             //Validar Transiciones cuando leemos el mismo caracter NO SE PUEDE
             var transitionParts = transition.Split(',');
             //Validar Caracteres que esten en el alfabeto 
