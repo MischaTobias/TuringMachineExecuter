@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace TuringMachineExecuter.Structures
 {
-    public class Node : IComparable
+    public class Node
     {
-        public string State;
-        public List<Transition> Transitions;
+        private string State;
+        private List<Transition> Transitions;
 
         public Node(){}
-        public Node(string state)
+        public Node(string state, List<Transition> transitions)
         {
             State = state;
+            Transitions = transitions;
         }
 
-        public int CompareTo(object obj)
-        {
-            return State.CompareTo(((Node)obj).State);
-        }
+        public string GetState() { return State; }
+        public List<Transition> GetTransitions() { return Transitions; }
+        public void AddTransition(Transition transition) { Transitions.Add(transition); }
     }
 }

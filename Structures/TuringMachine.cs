@@ -5,13 +5,13 @@ namespace TuringMachineExecuter.Structures
 {
     public class TuringMachine
     {
-        public List<Node> States;
-        public Node CurrentNode;
-        public ReadingHead Head;
-        public List<char> Alphabet;
-        public string InitialState;
-        public int NoOfStates;
-        public bool Usable;
+        private List<Node> States;
+        private Node CurrentNode;
+        private ReadingHead Head;
+        private List<char> Alphabet;
+        private string InitialState;
+        private int NoOfStates;
+        private bool Usable;
 
         public TuringMachine(){}
         public TuringMachine(int statesQty, string initialState, string alphabet)
@@ -24,6 +24,17 @@ namespace TuringMachineExecuter.Structures
                 Alphabet.Add('_');
             Usable = true;
         }
+
+        public void SetUse(bool value) { Usable = value; }
+        public bool IsUsable() { return Usable; }
+        public bool StatesValidness() { return States.Count == NoOfStates; }
+        public string GetInitialState() { return InitialState; }
+        public Node GetInitialNode() { return States.Find(x => x.GetState() == InitialState); }
+        public bool CharacterInAlphabet(char character) { return Alphabet.Contains(character); }
+        public void SetCurrentNode(Node node) { CurrentNode = node; }
+        public List<Node> GetStates() { return States; }
+        public List<char> GetAlphabet() { return Alphabet; }
+        public Node GetCurrentNode() { return CurrentNode; }
 
         public string AddTransition(string transition)
         {
@@ -57,14 +68,14 @@ namespace TuringMachineExecuter.Structures
 
         private void CreateState(string state)
         {
-            States.Add(new Node() { State = state, Transitions = new List<Transition>() });
+            States.Add(new Node(state, new List<Transition>()));
         }
 
         private bool PendingState(string stateName)
         {
             foreach (var state in States)
             {
-                if (state.State == stateName)
+                if (state.GetState() == stateName)
                 {
                     return false;
                 }
@@ -84,11 +95,11 @@ namespace TuringMachineExecuter.Structures
             };
             for (int i = 0; i < States.Count; i++)
             {
-                if (States[i].State == newTransition.CurrentState)
+                if (States[i].GetState() == newTransition.CurrentState)
                 {
-                    if (!States[i].Transitions.Contains(newTransition))
+                    if (!States[i].GetTransitions().Contains(newTransition))
                     {
-                        States[i].Transitions.Add(newTransition);
+                        States[i].AddTransition(newTransition);
                         return;
                     }
                 }
@@ -99,7 +110,7 @@ namespace TuringMachineExecuter.Structures
         {
             foreach (var state in States)
             {
-                if (state.State == InitialState)
+                if (state.GetState() == InitialState)
                 {
                     return true;
                 }
